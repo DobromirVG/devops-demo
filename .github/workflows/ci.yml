@@ -87,7 +87,7 @@ jobs:
         run: |
           echo "Performing health check on GREEN deployment..."
           # Simulate a successful health check (you can switch 0 to 1 to simulate failure)
-          exit 0
+          exit 1
 
       - name: Rollback if health check fails
         if: failure()
