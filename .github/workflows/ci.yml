@@ -60,7 +60,7 @@ jobs:
           echo "Pretend deployment successful!"
   
           echo "This is a mock deploy for university coursework."
-          
+
   blue_green:
     needs: deploy
     runs-on: ubuntu-latest
@@ -76,3 +76,30 @@ jobs:
           echo "Switching traffic from BLUE → GREEN"
           echo "GREEN is now active."
           echo "Blue-Green deployment complete."
+
+  rollback_simulation:
+    needs: blue_green
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+      - name: Perform health check
+        run: |
+          echo "Performing health check on GREEN deployment..."
+          # Simulate a successful health check (you can switch 0 to 1 to simulate failure)
+          exit 0
+
+      - name: Rollback if health check fails
+        if: failure()
+        run: |
+          echo "Health check failed!"
+          echo "Rolling back to BLUE version..."
+          echo "Rollback complete."
+
+      - name: Confirm deployment
+        if: success()
+        run: |
+          echo "Health check passed!"
+          echo "GREEN deployment is stable."
+          echo "No rollback required."
+         
