@@ -58,4 +58,21 @@ jobs:
           echo "Connecting to FTP server..."
           echo "Uploading files..."
           echo "Pretend deployment successful!"
+  
           echo "This is a mock deploy for university coursework."
+          
+  blue_green:
+    needs: deploy
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+      - name: Start Blue-Green Deployment Simulation
+        run: |
+          echo "Current active version: BLUE"
+          echo "Deploying new version to GREEN..."
+          echo "Running health checks..."
+          echo "Health checks passed!"
+          echo "Switching traffic from BLUE → GREEN"
+          echo "GREEN is now active."
+          echo "Blue-Green deployment complete."
